@@ -2,8 +2,8 @@
 struct scheduling{
     int pname,BT, BTcpy,priority, Arvl_Tim, Waitur_Tim, turn_Tim;
 }Q1[15],Q2[15];
-void main(){
-	struct schedule;
+int main(){
+	struct scheduling temp;
     int i,Fixed_T,Robin_T,total_P,incrmnt=0,k,pf_2=0,total_P2,BurTim=0,n,position,j,F=0,y,time=0;
     float avgWtime,WTime=0,avgTAtime,TATime= 0;
     printf("Total no. of processes in the scheduling is ");
