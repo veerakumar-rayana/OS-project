@@ -1,0 +1,95 @@
+#include<stdio.h>
+struct scheduling{
+    int pname,BT, BTcpy,priority, Arvl_Tim, Waitur_Tim, turn_Tim;
+}Q1[15],Q2[15];
+void main(){
+	struct schedule;
+    int i,Fixed_T,Robin_T,total_P,incrmnt=0,k,pf_2=0,total_P2,BurTim=0,n,position,j,F=0,y,time=0;
+    float avgWtime,WTime=0,avgTAtime,TATime= 0;
+    printf("Total no. of processes in the scheduling is ");
+    scanf("%d", &total_P);
+    n=total_P;
+    for(i=0;i<total_P;i++){
+    	printf("\n Enter Process number  ");
+        scanf("%d",&Q1[i].pname);
+        printf("the arrival Time is ");
+        scanf("%d",&Q1[i].Arvl_Tim);
+        printf("the burst time is ");
+        scanf("%d",&Q1[i].BT);
+        Q1[i].BTcpy=Q1[i].BT;
+        printf("Priority is  ");
+        scanf("%d",&Q1[i].priority);}
+    printf("\nQuantum time for Fixed prority preemptive scheduling");
+    scanf("%d",&Fixed_T);
+    printf("\ntquantum time for round robin scheduling");
+    scanf("%d",&Robin_T);
+    printf("\n\nProcess\t|Turnaround Time|Waiting Time\n");
+    for(i=0;i<total_P;i++){
+        position=i;
+        for(j=i+1;j<total_P;j++){
+            if(Q1[j].Arvl_Tim<Q1[position].Arvl_Tim)
+                position=j; }
+        temp=Q1[i];
+        Q1[i]=Q1[position];
+        Q1[position]=temp; }
+    time=Q1[0].Arvl_Tim;
+    for(i=0;total_P!=0;i++){
+    	while(incrmnt!=Fixed_T){
+    		incrmnt=incrmnt+1;
+    		if(Q1[i].Arvl_Tim<=time){
+    			for(j=i+1;j<total_P;j++){
+    				if(Q1[j].Arvl_Tim==time && Q1[j].priority<Q1[i].priority){
+    					Q2[pf_2]=Q1[i];
+						pf_2=pf_2+1;
+    					for(k=i; k<total_P-1;k++)
+    						Q1[k]=Q1[k+1];
+    					total_P=total_P-1;
+						incrmnt=0;
+    					i=j-1;
+    					j=j-1;}}}
+			time=time+1;
+			Q1[i].BT=Q1[i].BT-1;
+			if(Q1[i].BT==0){
+				Q1[i].turn_Tim=time-Q1[i].Arvl_Tim;
+				Q1[i].Waitur_Tim=Q1[i].turn_Tim-Q1[i].BTcpy;
+				printf("%d\t|\t%d\t|\t%d\n",Q1[i].pname,Q1[i].turn_Tim,Q1[i].Waitur_Tim);
+				WTime=WTime+time-Q1[i].Waitur_Tim; 
+    			TATime=TATime+time-Q1[i].turn_Tim;
+    			for(k=i;k<total_P-1;k++)
+    				Q1[k]=Q1[k+1];i=i-1;
+    			total_P=total_P-1;
+				incrmnt=Fixed_T;break;}}
+		incrmnt=0;
+		if(Q1[i].BT!=0){
+			Q2[pf_2]=Q1[i];
+			pf_2=pf_2+1;
+			for(k=i;k<total_P-1;k++)
+    			Q1[k]=Q1[k+1];
+    		total_P=total_P-1;}
+			if(i==total_P-1)
+				i=-1;}
+	total_P2=pf_2;
+	for(incrmnt=0;total_P2!=0;){ 
+		if(Q2[incrmnt].BT<=Robin_T&&Q2[incrmnt].BT>0) { 
+    		time=time+Q2[incrmnt].BT; 
+    		Q2[incrmnt].BT=0; 
+    		F=1; } 
+    	else if(Q2[incrmnt].BT>0) { 
+    		Q2[incrmnt].BT=Q2[incrmnt].BT-Robin_T; 
+    		time=time+Robin_T; } 
+    	if(Q2[incrmnt].BT==0&&F==1) { 
+    		total_P2=total_P2-1; 
+    		Q2[incrmnt].turn_Tim=time-Q2[incrmnt].Arvl_Tim;
+			Q2[incrmnt].Waitur_Tim=Q2[incrmnt].turn_Tim-Q2[incrmnt].BTcpy; 
+			printf("%d\t|\t%d\t|\t%d\n",Q2[incrmnt].pname,Q2[incrmnt].turn_Tim,Q2[incrmnt].Waitur_Tim); 
+    		TATime=TATime+time-Q2[incrmnt].Arvl_Tim; 
+    		WTime=WTime+time-Q2[incrmnt].Arvl_Tim-Q2[incrmnt].BTcpy;
+    		for(k=incrmnt; k<total_P2;k++)
+    			Q2[k]=Q2[k+1];incrmnt=incrmnt-1;
+    		F=0;} 
+    	if(incrmnt==total_P2-1) 
+      		incrmnt=0; 
+    	else 
+    		incrmnt=incrmnt+1; }
+    printf("\n the avg. Wait Time in the scheduling is  %f", WTime/n); 
+    printf("\nthe avg Turnaround Time in the scheduling is %f" ,TATime/n);   }
