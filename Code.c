@@ -81,34 +81,3 @@ void main()
 			if(i==totalP-1)
 				i=-1;
 	}
-	totalP2=pf2;
-	for(count=0;totalP2!=0;) 
-	{ 
-		if(Q2[count].burT<=RobinT&&Q2[count].burT>0) 
-    	{ 
-    		time=time+Q2[count].burT; 
-    		Q2[count].burT=0; 
-    		flag=1; 
-    	} 
-    	else if(Q2[count].burT>0) 
-    	{ 
-    		Q2[count].burT=Q2[count].burT-RobinT; 
-    		time=time+RobinT; 
-    	} 
-    	if(Q2[count].burT==0&&flag==1) 
-    	{ 
-    		totalP2=totalP2-1; 
-    		Q2[count].turnT=time-Q2[count].arvlTime;
-			Q2[count].waiturnT=Q2[count].turnT-Q2[count].burTcopy; 
-    		TATime=TATime+time-Q2[count].arvlTime; 
-    		WTime=WTime+time-Q2[count].arvlTime-Q2[count].burTcopy;
-    		for(k=count; k<totalP2;k++)
-    			Q2[k]=Q2[k+1];count=count-1;
-    		flag=0;
-    	} 
-    	if(count==totalP2-1) 
-      		count=0; 
-    	else 
-    		count=count+1; 
-    }
-}
